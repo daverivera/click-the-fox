@@ -3,10 +3,16 @@ import ReactDOM from 'react-dom/client';
 import styled from 'styled-components';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Typography } from '@mui/material';
+import { store } from '@/store';
+import { Provider } from 'react-redux';
+import { fetchImages } from '@/store/imagesSlice';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 
 // Views
-import Welcome from './views/Welcome';
-import Play from './views/Play';
+import Welcome from '@/views/Welcome';
+import Play from '@/views/Play';
+import Scoreboard from '@/views/Scoreboard';
 
 // General styles
 import './index.css';
@@ -16,7 +22,8 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import Scoreboard from './views/Scoreboard';
+
+const persistor = persistStore(store);
 
 const router = createBrowserRouter([
     { path: '/', element: <Welcome /> },
@@ -26,17 +33,25 @@ const router = createBrowserRouter([
     { path: '/scoreboard', element: <Scoreboard /> },
 ]);
 
+// eslint-disable-next-line react-refresh/only-export-components -- this component never refreshes
 const WelcomeContainer = styled.div`
     height: 100%;
     text-align: center;
 `;
 
+// Pre-load images
+store.dispatch(fetchImages());
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <WelcomeContainer>
-            <Typography variant="h3">Click the Fox! Game</Typography>
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <WelcomeContainer>
+                    <Typography variant="h3">Click the Fox! Game</Typography>
 
-            <RouterProvider router={router} />
-        </WelcomeContainer>
+                    <RouterProvider router={router} />
+                </WelcomeContainer>
+            </PersistGate>
+        </Provider>
     </React.StrictMode>
 );

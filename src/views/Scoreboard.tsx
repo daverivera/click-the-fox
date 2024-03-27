@@ -9,31 +9,34 @@ import {
     TableRow,
     Typography,
 } from '@mui/material';
-import Footer from '../components/Footer';
+import Footer from '@/components/Footer';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '@/hooks';
 import styled from 'styled-components';
-import { getFormattedDate } from '../utils/date';
+import { useUserValidator } from '@/hooks/useUserValidator';
 
 const ScoreboardContainer = styled.div`
     max-width: 650px;
     margin: auto;
 `;
 
+const TableWrapper = styled.div`
+    max-height: 60vh;
+    overflow-x: hidden;
+`;
+
 export default function Scoreboard() {
     const navigate = useNavigate();
+    const scoreboard = useAppSelector(state => state.scoreboard);
 
-    const data = [
-        { rank: 1, name: 'Jeniffer', date: new Date(), score: 6 },
-        { rank: 2, name: 'Sjors', date: new Date(), score: 4 },
-        { rank: 3, name: 'Jeniffer', date: new Date(), score: 3 },
-    ];
+    useUserValidator();
 
     return (
         <ScoreboardContainer>
             <Typography variant="h4">SCOREBOARD</Typography>
 
-            <div>
-                <TableContainer component={Paper}>
+            <TableWrapper>
+                <TableContainer component={Paper} style={{ overflowX: 'hidden' }}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -44,29 +47,34 @@ export default function Scoreboard() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.map(row => {
+                            {scoreboard.map((score, index) => {
                                 return (
-                                    <TableRow key={row.rank} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                        <TableCell component="th" scope="row">
-                                            {row.rank}
+                                    <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        <TableCell component="th" scope="row" data-testid="rank">
+                                            {index + 1}
                                         </TableCell>
-                                        <TableCell align="right">{row.name}</TableCell>
-                                        <TableCell align="right">{getFormattedDate(row.date)}</TableCell>
-                                        <TableCell align="right">{row.score}</TableCell>
+                                        <TableCell align="right" data-testid="name">
+                                            {score.name}
+                                        </TableCell>
+                                        <TableCell align="right" data-testid="date">
+                                            {score.date}
+                                        </TableCell>
+                                        <TableCell align="right" data-testid="score">
+                                            {score.score}
+                                        </TableCell>
                                     </TableRow>
                                 );
                             })}
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </div>
+            </TableWrapper>
 
             <Footer>
-                <Button variant="outlined" onClick={() => navigate('/')}>
+                <Button variant="outlined" onClick={() => navigate('/')} style={{ marginRight: '16px' }}>
                     To welcome screen
                 </Button>
 
-                {/* TODO: Navigate to "play" with the username */}
                 <Button variant="outlined" onClick={() => navigate('/play')}>
                     Play
                 </Button>

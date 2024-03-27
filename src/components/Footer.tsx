@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const FooterContainer = styled.div`
     bottom: 30%;
+    max-width: 650px;
     position: absolute;
     width: 100%;
 `;

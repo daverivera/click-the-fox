@@ -1,30 +1,54 @@
-# React + TypeScript + Vite
+# Click the Fox! Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is an implementation of the game "Click the Fox".
 
-Currently, two official plugins are available:
+• This is a game in the browser • It consists on clicking the fox image as many times as you can within 30 seconds
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technologies used
 
-## Expanding the ESLint configuration
+-   Typescript
+-   React
+-   ESLint
+-   Redux
+-   Redux Persist
+-   Material UI
+-   Cypress
+-   MSW
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Getting started
 
-- Configure the top-level `parserOptions` property like this:
+### Starting the application
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+1. To run the application all dependencies must be installed:
+
+```bash
+$ npm install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. The application runs over the port `3000`. Run the server to be able to access the application through
+   [http://localhost:3000](http://localhost:3000) on a browser.
+
+```bash
+$ npm run start
+```
+
+### Running tests
+
+Having all the dependencies preinstalled (`npm i`), and the server running, the tests can be executed with:
+
+```bash
+$ npm run start
+$ npm run test
+```
+
+Alternatively, starting the server and running the can be both executed at the same time with the command:
+
+```bash
+$ npm run ci
+```
+
+### Structure
+
+-   `src`: Application code
+-   `cypress/e2e`: Integration tests
+-   `mocks`: Fixtures and mock server config
